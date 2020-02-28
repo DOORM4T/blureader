@@ -3,7 +3,10 @@ const viewerHandle = document.createElement("div");
 const resizableArea = document.createElement("textarea");
 
 viewer.id = "blureader-viewer";
+viewer.style.opacity = 0;
+
 viewerHandle.id = "blureader-viewer-handle";
+
 resizableArea.id = "blureader-resizable-area";
 resizableArea.disabled = true;
 
@@ -11,19 +14,30 @@ viewer.appendChild(viewerHandle);
 viewer.appendChild(resizableArea);
 
 let active = false;
-viewer.style.display = "none";
-
 let grabbing = false;
+let moveByLineHeight = false;
 
 document.addEventListener("keyup", ({ keyCode }) => {
-  if (keyCode === 121) active = !active;
-  if (active) viewer.style.display = "block";
-  else viewer.style.display = "none";
+  // Activate with F10
+  if (keyCode === 121) {
+    active = !active;
+    if (active) {
+      viewer.style.opacity = 1;
+      viewer.style.display = "block";
+    } else {
+      viewer.style.opacity = 0;
+      viewer.style.display = "none";
+    }
+  }
+
+  // Toggle moving by line height
+  if (keyCode === 16) {
+    moveByLineHeight = !moveByLineHeight;
+  }
 });
 
 viewerHandle.addEventListener("mousedown", () => {
   grabbing = true;
-  console.log(grabbing);
 });
 viewerHandle.addEventListener("mouseup", () => {
   grabbing = false;
@@ -36,15 +50,16 @@ document.addEventListener("mousemove", ({ clientX, clientY }) => {
 });
 
 document.addEventListener("keydown", ({ keyCode }) => {
-  let { top, left } = window.getComputedStyle(viewer);
+  let { top, left, height } = window.getComputedStyle(viewer);
   top = +top.replace(/px/, "");
   left = +left.replace(/px/, "");
+  height = +height.replace(/px/, "");
 
-  let pixelsToMove = 5;
+  let pixelsToMove = moveByLineHeight ? height : 5;
 
   // Up Arrow Key, Move viewer up
   if (keyCode === 38) {
-    if (viewer.getBoundingClientRect().top < 10) {
+    if (viewer.getBoundingClientRect().top < height) {
       window.scrollBy({ top: -pixelsToMove });
       return;
     }
@@ -53,7 +68,7 @@ document.addEventListener("keydown", ({ keyCode }) => {
 
   // Down Arrow Key, Move viewer down
   if (keyCode === 40) {
-    if (viewer.getBoundingClientRect().bottom > window.innerHeight - 10) {
+    if (viewer.getBoundingClientRect().bottom > window.innerHeight - height) {
       window.scrollBy({ top: pixelsToMove });
       return;
     }
