@@ -1,7 +1,7 @@
 {
   "name": "Blureader",
   "version": "0.1.0",
-  "description": "Build an Extension!",
+  "description": "An experimental 'blur-reader' Chrome extension that promotes focused reading on the web!",
   "content_scripts": [
     {
       "matches": ["https://*/*"],
