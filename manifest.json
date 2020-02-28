@@ -1,0 +1,13 @@
+{
+  "name": "Blureader",
+  "version": "0.1.0",
+  "description": "Build an Extension!",
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "manifest_version": 2
+}
