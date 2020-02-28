@@ -22,31 +22,39 @@ document.addEventListener("keyup", ({ keyCode }) => {
   // Toggle activation with F10
   if (keyCode === 121) {
     active = !active;
-    if (active) {
-      viewer.focus();
-      viewer.style.opacity = 1;
-      viewer.style.display = "block";
-    } else {
-      viewer.blur();
-      viewer.style.opacity = 0;
-      viewer.style.display = "none";
-    }
+    toggleActive();
   }
 
   // Toggle moving by line height
   if (keyCode === 16) {
     moveByLineHeight = !moveByLineHeight;
   }
+
+  // Deactivate if esc is pressed while active
+  if (active && keyCode === 27) {
+    active = false;
+    toggleActive();
+  }
 });
 
-viewerHandle.addEventListener("mousedown", () => {
-  grabbing = true;
-});
-viewerHandle.addEventListener("mouseup", () => {
-  grabbing = false;
+function toggleActive() {
+  if (active) {
+    viewer.focus();
+    viewer.style.opacity = 1;
+    viewer.style.display = "block";
+  } else {
+    viewer.blur();
+    viewer.style.opacity = 0;
+    viewer.style.display = "none";
+  }
+}
+
+viewerHandle.addEventListener("click", () => {
+  grabbing = !grabbing;
+  viewerHandle.classList.toggle("grabbing");
 });
 
-document.addEventListener("mousemove", ({ clientX, clientY }) => {
+viewer.addEventListener("mousemove", ({ clientX, clientY }) => {
   if (grabbing) {
     gotoMouse(clientX, clientY);
   }

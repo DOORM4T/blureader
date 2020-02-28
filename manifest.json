@@ -4,7 +4,7 @@
   "description": "An experimental 'blur-reader' Chrome extension that promotes focused reading on the web!",
   "content_scripts": [
     {
-      "matches": ["https://*/*"],
+      "matches": ["https://*/*", "file:///*"],
       "js": ["content.js"],
       "css": ["content.css"]
     }

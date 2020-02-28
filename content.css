@@ -9,7 +9,8 @@
   border-radius: 4px;
   min-height: 20px;
   pointer-events: none;
-  transition: opacity 0.5s ease-in, top 0.1s ease, left 0.1s ease;
+  transition: opacity 0.5s ease-in;
+  padding: 0;
 }
 
 #blureader-viewer-handle {
@@ -24,8 +25,9 @@
   border-radius: 0 0 4px 0;
   cursor: grab;
 }
-#blureader-viewer-handle:active {
+#blureader-viewer-handle.grabbing {
   cursor: grabbing;
+  background-color: rgb(92, 206, 82);
 }
 
 #blureader-resizable-area {
@@ -35,5 +37,8 @@
   height: 50px;
   background-color: transparent;
   border: none;
+  box-sizing: border-box;
   border-radius: 4px;
+  padding: 0;
+  margin: 0;
 }
