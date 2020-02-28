@@ -4,6 +4,7 @@ const resizableArea = document.createElement("textarea");
 
 viewer.id = "blureader-viewer";
 viewer.style.opacity = 0;
+viewer.tabIndex = 1;
 
 viewerHandle.id = "blureader-viewer-handle";
 
@@ -18,13 +19,15 @@ let grabbing = false;
 let moveByLineHeight = false;
 
 document.addEventListener("keyup", ({ keyCode }) => {
-  // Activate with F10
+  // Toggle activation with F10
   if (keyCode === 121) {
     active = !active;
     if (active) {
+      viewer.focus();
       viewer.style.opacity = 1;
       viewer.style.display = "block";
     } else {
+      viewer.blur();
       viewer.style.opacity = 0;
       viewer.style.display = "none";
     }
@@ -82,7 +85,9 @@ document.addEventListener("keydown", ({ keyCode }) => {
   if (keyCode === 39) viewer.style.left = left + pixelsToMove + "px";
 });
 
+// Prevent page scroll with arrow keys while active
 document.onkeydown = ({ keyCode }) => {
+  if (!active) return;
   if (keyCode === 38 || keyCode === 40) return false;
 };
 
