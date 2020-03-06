@@ -106,3 +106,30 @@ function gotoMouse(x, y) {
   viewer.style.left = x - width / 2 + "px";
   viewer.style.top = y - height / 2 + "px";
 }
+
+//
+// Auto Scrolling
+// Activate with `
+//
+let scrolling = false;
+let scrollingInterval = null;
+document.addEventListener("keyup", ({ keyCode }) => {
+  if (keyCode !== 192 || !active) return;
+
+  if (scrolling) {
+    stopScrolling();
+    return;
+  }
+
+  scrolling = true;
+  scrollingInterval = setInterval(() => {
+    window.scrollBy(0, 1);
+    if (window.pageYOffset >= window.innerHeight) stopScrolling();
+  }, 100);
+});
+
+function stopScrolling() {
+  clearInterval(scrollingInterval);
+  scrollingInterval = null;
+  scrolling = false;
+}
